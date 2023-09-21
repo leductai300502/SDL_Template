@@ -1,6 +1,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_mixer.h>
 
 const int WIDTH = 800, HEIGHT = 600;
 
@@ -40,6 +41,31 @@ int main( int argc, char *argv[] )
         SDL_Quit();
         return 1;
     }
+
+    // Khởi tạo SDL2_mixer
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+        std::cerr << "Mix_OpenAudio failed: " << Mix_GetError() << std::endl;
+        SDL_Quit();
+        return 1;
+    }
+
+    // Load âm thanh
+    Mix_Music* music = Mix_LoadMUS("theme.mp3");
+    if (music == nullptr) {
+        std::cerr << "Mix_LoadMUS failed: " << Mix_GetError() << std::endl;
+        Mix_CloseAudio();
+        SDL_Quit();
+        return 1;
+    }
+
+    if (Mix_PlayMusic(music, -1) == -1) {
+        std::cerr << "Mix_PlayMusic failed: " << Mix_GetError() << std::endl;
+        Mix_FreeMusic(music);
+        Mix_CloseAudio();
+        SDL_Quit();
+        return 1;
+    }
+    
     SDL_Event windowEvent;
 
     while ( true )
@@ -57,6 +83,7 @@ int main( int argc, char *argv[] )
 
         // Update renderer
         SDL_RenderPresent(renderer);
+
     }
 
     SDL_DestroyTexture(texture);
