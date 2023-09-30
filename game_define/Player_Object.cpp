@@ -11,6 +11,14 @@ PlayerObject::PlayerObject()
     status =1;
     x_pos_ =0;
     y_pos_ =0;
+    input_type.up=0;
+    input_type.left=0;
+    input_type.right=0;
+    input_type.down=0;
+    input_type.up_left=0;
+    input_type.up_right=0;
+    input_type.down_left=0;
+    input_type.down_right=0;
 }
 
 PlayerObject::~PlayerObject()
@@ -56,63 +64,123 @@ void PlayerObject::Show(SDL_Renderer* des)
     LoadImg("player_right.png",des);
   }
   
-  if(input_type.left == 1 && input_type.up == 1)
+  // if(input_type.left == 1 && input_type.up == 1)
+  // {
+  //   frame ++;
+  //   if(x_pos_ >= 5 )
+  //   {
+  //     x_pos_ -= 5;
+  //   } 
+  //   if(y_pos_ >= 5)
+  //   {
+  //     y_pos_ -= 5;
+  //   }
+  //   input_type.left = 0;
+  //   input_type.up = 0;
+  // }
+  // else if(input_type.up == 1 && input_type.right == 1)
+  // {
+  //   frame++;
+  //   if(x_pos_ + width_frame <= SCREEN_WIDTH -5){
+  //     x_pos_ += 5;
+  //   }
+  //   if(y_pos_ >= 5)
+  //   {
+  //     y_pos_ -= 5;
+  //   }
+  //   input_type.right = 0;
+  //   input_type.up = 0;
+  // }
+  // else if(input_type.down == 1 && input_type.right == 1)
+  // {
+  //   frame++;
+  //   if(x_pos_ + width_frame <= SCREEN_WIDTH -5 ){
+  //     x_pos_ += 5;
+  //   }
+  //   if(y_pos_ + height_frame <= SCREEN_HEIGHT -5)
+  //   {
+  //     y_pos_ += 5;
+  //   }
+  //   input_type.right = 0;
+  //   input_type.down = 0;
+  // }
+  // else if(input_type.down == 1 && input_type.left == 1)
+  // {
+  //   frame++;
+  //   if(x_pos_ >= 5 ){
+  //     x_pos_ -= 5;
+  //   }
+  //   if(y_pos_ + height_frame <= SCREEN_HEIGHT -5)
+  //   {
+  //      y_pos_ += 5;
+  //   }
+  //   input_type.left = 0;
+  //   input_type.up = 0;
+  // }
+  // else if(input_type.left == 1)
+  // {
+  //   frame++;
+  //   if(x_pos_ >= 5) x_pos_ -=5;
+  //   input_type.left = 0;
+  //   // std::cout<<x_pos_<<std::endl;
+  // }
+  // else if(input_type.right == 1)
+  // {
+  //   frame++;
+  //   if(x_pos_ <= SCREEN_WIDTH - width_frame - 5) x_pos_ +=5;
+  //   input_type.right = 0;
+  // }
+  // else if(input_type.up == 1)
+  // {
+  //   frame++;
+  //   if(y_pos_ >= 5) y_pos_ -= 5;
+  //   input_type.up = 0;
+  // }
+  // else if(input_type.down == 1)
+  // {
+  //   frame++;
+  //   if(y_pos_ + height_frame <= SCREEN_HEIGHT - 5) y_pos_ += 5;
+  //   input_type.down = 0;
+  // }
+  // else{
+  //   frame =0;
+  // }
+
+  if(input_type.left == 1)
   {
     frame ++;
-    if(x_pos_ > 0 && y_pos_ > 0)
+    if(x_pos_ >= 5 )
     {
       x_pos_ -= 5;
-      y_pos_ -= 5;
     } 
   }
-  else if(input_type.up == 1 && input_type.right == 1)
+  if(input_type.right == 1)
   {
     frame++;
-    if(x_pos_ + width_frame <= SCREEN_WIDTH && y_pos_ > 0){
+    if(x_pos_ + width_frame <= SCREEN_WIDTH -5){
       x_pos_ += 5;
+    }
+  }
+  if(input_type.up == 1)
+  {
+    frame++;
+    if(y_pos_ >= 5)
+    {
       y_pos_ -= 5;
     }
   }
-  else if(input_type.down == 1 && input_type.right == 1)
+  if(input_type.down == 1)
   {
     frame++;
-    if(x_pos_ + width_frame <= SCREEN_WIDTH && y_pos_ + height_frame < SCREEN_HEIGHT){
-      x_pos_ += 5;
+    if(y_pos_ + height_frame <= SCREEN_HEIGHT -5)
+    {
       y_pos_ += 5;
     }
   }
-  else if(input_type.down == 1 && input_type.left == 1)
+  if(input_type.left == 0 && input_type.right == 0 && input_type.down == 0 && input_type.up == 0)
   {
-    frame++;
-    if(x_pos_ >= 0 && y_pos_ + height_frame < SCREEN_HEIGHT){
-      x_pos_ -= 5;
-      y_pos_ += 5;
-    }
+    frame = 0;
   }
-  else if(input_type.left == 1)
-  {
-    frame++;
-    if(x_pos_ > 0) x_pos_ -=5;
-  }
-  else if(input_type.right == 1)
-  {
-    frame++;
-    if(x_pos_ < SCREEN_WIDTH - width_frame) x_pos_ +=5;
-  }
-  else if(input_type.up == 1)
-  {
-    frame++;
-    if(y_pos_ >= 0) y_pos_ -= 5;
-  }
-  else if(input_type.down == 1)
-  {
-    frame++;
-    if(y_pos_ + height_frame <= SCREEN_HEIGHT) y_pos_ += 5;
-  }
-  else{
-    frame =0;
-  }
-
   if(frame >= 8)
   {
     frame = 0;
@@ -126,43 +194,10 @@ void PlayerObject::Show(SDL_Renderer* des)
   SDL_RenderCopy(des,p_object_,current_clip,&renderQuad);
 }
 
-void PlayerObject::HandleInputAction(SDL_Event events, SDL_Renderer* screen)
+void PlayerObject::HandleInputAction_1(SDL_Event events, SDL_Renderer* screen)
 {
   if(events.type == SDL_KEYDOWN)
   {
-    // switch (events.key.keysym.sym)
-    // {
-    //   case SDLK_RIGHT && SDLK_UP:
-    //     {
-    //       status = Walk_up_right;
-    //       input_type.up_right = 1;
-    //     }
-    //     break;
-    //   case SDLK_RIGHT:
-    //     {
-    //       status = Walk_rigth;
-    //       input_type.right = 1;
-    //     }
-    //     break;
-    //   case SDLK_LEFT:
-    //     {
-    //       status = Walk_left;
-    //       input_type.left = 1;
-    //     }
-    //     break;
-    //   case SDLK_UP:
-    //     {
-    //       status = Walk_up;
-    //       input_type.up = 1;
-    //     }
-    //     break;
-    //   case SDLK_DOWN:
-    //     {
-    //       status = Walk_down;
-    //       input_type.down = 1;
-    //     }
-    //     break;
-    // }
     if(events.key.keysym.sym == SDLK_LEFT)
     {
       status = Walk_left;
@@ -213,6 +248,62 @@ void PlayerObject::HandleInputAction(SDL_Event events, SDL_Renderer* screen)
     }
   }
 }
+
+void PlayerObject::HandleInputAction_2(SDL_Event events, SDL_Renderer* screen)
+{
+  if(events.type == SDL_KEYDOWN)
+  {
+    if(events.key.keysym.sym == SDLK_a)
+    {
+      status = Walk_left;
+      input_type.left = 1;
+    }
+    if(events.key.keysym.sym == SDLK_d)
+    {
+      status = Walk_rigth;
+      input_type.right = 1;
+    }
+    if(events.key.keysym.sym == SDLK_w)
+    {
+      status = Walk_up;
+      input_type.up = 1;
+    }    
+    if(events.key.keysym.sym == SDLK_s)
+    {
+      status = Walk_down;
+      input_type.down = 1;
+    }   
+  }else if(events.type == SDL_KEYUP)
+  {
+    switch (events.key.keysym.sym)
+    {
+      case SDLK_d:
+        {
+          // status = Walk_rigth;
+          input_type.right = 0;
+        }
+        break;
+      case SDLK_a:
+        {
+          // status = Walk_left;
+          input_type.left = 0;
+        }
+      case SDLK_w:
+        {
+          // status = Walk_rigth;
+          input_type.up = 0;
+        }
+        break;
+      case SDLK_s:
+        {
+          // status = Walk_left;
+          input_type.down = 0;
+        }        
+        break;
+    }
+  }
+}
+
 
 void PlayerObject::Set_Clip()
 {

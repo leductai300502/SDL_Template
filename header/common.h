@@ -7,6 +7,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_ttf.h>
 
 static SDL_Window* g_Window = NULL;
 static SDL_Renderer* g_Screen = NULL;
@@ -15,6 +16,8 @@ static SDL_Event g_Event ;
 const int SCREEN_WIDTH = 595;
 const int SCREEN_HEIGHT = 800;
 const int SCREEN_BPP = 32;
+
+const int FRAME_PER_SECOND  = 25;
  
 const int COLOR_KEY_R = 167;
 const int COLOR_KEY_G = 175;

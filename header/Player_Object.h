@@ -22,7 +22,10 @@ public:
 
   bool LoadImg(std::string path, SDL_Renderer* screen);
   void Show(SDL_Renderer* des);
-  void HandleInputAction(SDL_Event events, SDL_Renderer* screen); 
+  void HandleInputAction_1(SDL_Event events, SDL_Renderer* screen); 
+  void HandleInputAction_2(SDL_Event events, SDL_Renderer* screen); 
+  void HandleInputAction_3(SDL_Event events, SDL_Renderer* screen); 
+  void HandleInputAction_4(SDL_Event events, SDL_Renderer* screen); 
   void Set_Clip();
   void Center();
 
