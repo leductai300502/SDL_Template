@@ -7,10 +7,15 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
+#include "base_object.h"
+#include "Menu.h"
 
 static SDL_Window* g_Window = NULL;
-static SDL_Renderer* g_Screen = NULL;
-static SDL_Event g_Event ;
+extern SDL_Renderer* g_Screen;
+extern SDL_Event g_Event ;
+
+// BaseObject g_BackGround;
+extern bool isQuit;
 
 const int SCREEN_WIDTH = 900;
 const int SCREEN_HEIGHT = 700;

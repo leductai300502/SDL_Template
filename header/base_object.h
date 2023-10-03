@@ -22,5 +22,11 @@ protected:
 
 };
 
-
+extern BaseObject g_BackGround;
+extern BaseObject GameTitle;
+extern BaseObject SinglePlayerMode;
+extern BaseObject MultiPlayerMode;
+extern BaseObject OptionsMode;
+extern BaseObject CreditsMode;
+extern BaseObject QuitMode;
 #endif

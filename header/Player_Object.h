@@ -28,6 +28,7 @@ public:
 
   float x_val_;
   float y_val_;
+  
 
   float x_center;
   float y_center;

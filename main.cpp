@@ -6,8 +6,11 @@
 #include "base_object.h"
 #include "Player_Object.h"
 #include "Ball_Object.h"
+#include "img_link.h"
+#include "game_status_machine.h"
 
-BaseObject g_BackGround;
+
+// BaseObject g_BackGround;
 PlayerObject g_Character_1;
 PlayerObject g_Character_2;
 BallObject g_Ball;
@@ -60,16 +63,16 @@ void Close()
     SDL_Quit();
 }
  
-bool LoadBackGround()
-{
-    bool ret = g_BackGround.LoadImage("main1.png",g_Screen);
+// bool LoadBackGround()
+// {
+//     bool ret = g_BackGround.LoadImage(MENU_BACKGROUND,g_Screen);
 
-    if(ret == false)
-    {
-        return false;
-    }
-    return true;
-}
+//     if(ret == false)
+//     {
+//         return false;
+//     }
+//     return true;
+// }
 
 void angle()
 {
@@ -315,7 +318,7 @@ int main( int argc, char *argv[] )
         return -1;
     }
 
-    if(LoadBackGround() == false)
+    if(g_Menu.LoadMenu() == false)
     {
         return -1;
     }
@@ -327,21 +330,23 @@ int main( int argc, char *argv[] )
     g_Ball.x_pos_ = 100;
     g_Ball.y_pos_ = 200;
 
-    bool isquit = false;
-
-    while(!isquit)
+    while(!isQuit)
     {
-        while(SDL_PollEvent(&g_Event))
+        if(SDL_PollEvent(&g_Event))
         {
+            // std::cout<< gameStatus<<std::endl;
+
+            game_status_machine();
             if(g_Event.type == SDL_QUIT)
             {
-                isquit = true;
+                isQuit = true;
             }
             g_Character_1.HandleInputAction(g_Event,g_Screen);
         }
         SDL_RenderClear(g_Screen);
         // SDL_SetRenderDrawColor(g_Screen,255,255,255,255);
         g_BackGround.Render(g_Screen,NULL);
+        g_Menu.ShowMenu();
         g_Character_1.Show(g_Screen);
         g_Ball.Show(g_Screen);
         g_Character_1.Center();
