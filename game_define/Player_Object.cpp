@@ -163,6 +163,7 @@ void PlayerObject::HandleInputAction(SDL_Event events, SDL_Renderer* screen)
     //     }
     //     break;
     // }
+
     if(events.key.keysym.sym == SDLK_LEFT)
     {
       status = Walk_left;
