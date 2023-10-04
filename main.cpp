@@ -323,10 +323,10 @@ int main( int argc, char *argv[] )
         return -1;
     }
 
-    g_Character_1.LoadImg("player_right.png", g_Screen);
+    std::cout<<(g_Character_1.LoadImg(PLAYER_BLUE_TEAM_FRAMES[0], g_Screen)?"success":"Failed to load player image")<<std::endl;
     g_Character_1.Set_Clip();
 
-    g_Ball.LoadImg("ball.png", g_Screen);
+    std::cout<<(g_Ball.LoadImg(BALL, g_Screen)?"success to load ball image":"Failed to load ball image")<<std::endl;
     g_Ball.x_pos_ = 100;
     g_Ball.y_pos_ = 200;
 
@@ -336,13 +336,13 @@ int main( int argc, char *argv[] )
         {
             // std::cout<< gameStatus<<std::endl;
 
-            game_status_machine();
             if(g_Event.type == SDL_QUIT)
             {
                 isQuit = true;
             }
             g_Character_1.HandleInputAction(g_Event,g_Screen);
         }
+        game_status_machine();
         SDL_RenderClear(g_Screen);
         // SDL_SetRenderDrawColor(g_Screen,255,255,255,255);
         g_BackGround.Render(g_Screen,NULL);
@@ -355,7 +355,7 @@ int main( int argc, char *argv[] )
         if(g_Ball.is_move_ == true) BallMove();
 
         SDL_RenderPresent(g_Screen);
-        SDL_Delay(50);
+        SDL_Delay(16);
     }
 
     Close();

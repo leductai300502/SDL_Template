@@ -13,7 +13,7 @@ void game_status_machine(){
         case MENU_MODE:
             /* code */
             g_BackGround.LoadImage(MENU_BACKGROUND,g_Screen);
-            g_Menu.ShowMenu();
+            // g_Menu.ShowMenu();
             g_Menu.RunMenu();
             break;
 

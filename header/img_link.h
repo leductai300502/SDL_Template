@@ -26,5 +26,13 @@ extern std::string MENU_QUIT_BTN;
 
 //// SINGLEPLAYER MODE ////
 extern std::string SINGLEPLAYER_FOOTBALL_TURF_BACKGROUND;
+extern std::string BALL;
+
+//// RUN ANIMATION'S FRAMES ////
+///// BLUE TEAM /////
+extern std::string PLAYER_BLUE_TEAM_FRAMES[8];
+
+//// RED TEAM ////
+extern std::string PLAYER_RED_TEAM_FRAMES[8];
 
 #endif

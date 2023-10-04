@@ -23,7 +23,7 @@ bool PlayerObject::LoadImg(std::string path, SDL_Renderer* screen)
   bool ret = BaseObject::LoadImage(path, screen);
   if(ret)
   {
-    width_frame  = rect_.w/8;
+    width_frame  = rect_.w;
     height_frame = rect_.h;
   }
   return ret;
@@ -40,21 +40,23 @@ void PlayerObject::Center()
 void PlayerObject::Show(SDL_Renderer* des)
 {
   //  BaseObject::Render(des,NULL);
-  if(status == Walk_left )
-  {
-    LoadImg("player_left.png",des);
-  }
-  else if(status == Walk_rigth)
-  {
-    LoadImg("player_right.png",des);
-  }
-  else if(status == Walk_down)
-  {
-    LoadImg("player_left.png",des);
-  }
-  else{
-    LoadImg("player_right.png",des);
-  }
+  // if(status == Walk_left )
+  // {
+  //   LoadImg("player_left.png",des);
+  // }
+  // else if(status == Walk_rigth)
+  // {
+  //   LoadImg("player_right.png",des);
+  // }
+  // else if(status == Walk_down)
+  // {
+  //   LoadImg("player_left.png",des);
+  // }
+  // else{
+  //   LoadImg("player_right.png",des);
+  // }
+
+  // std::cout<< "Player is being showed!"<< std::endl;
   
   if(input_type.left == 1 && input_type.up == 1)
   {
