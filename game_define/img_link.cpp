@@ -35,6 +35,7 @@ std::string PLAYER_BLUE_TEAM_FRAMES[8]={
                                             ASSET_FOLDER+"/animation/player_run/blue_team/player_animation0007.png",
                                             ASSET_FOLDER+"/animation/player_run/blue_team/player_animation0008.png"
                                         };
+std::string PLAYER_BLUE_TEAM_SPRITE= ASSET_FOLDER+"/animation/player_run/blue_team/player_animation_blue_team_sprite.png";
 
 //// RED TEAM ////
 std::string PLAYER_RED_TEAM_FRAMES[8]={
@@ -47,3 +48,4 @@ std::string PLAYER_RED_TEAM_FRAMES[8]={
                                             ASSET_FOLDER+"/animation/player_run/red_team/player_animation0007.png",
                                             ASSET_FOLDER+"/animation/player_run/red_team/player_animation0008.png"
                                         };
+std::string PLAYER_RED_TEAM_SPRITE= ASSET_FOLDER +"/animation/player_run/red_team/player_animation_red_team_sprite.png";;

@@ -3,6 +3,11 @@
 PlayerObject::PlayerObject()
 {
     // is_falling_ = false;
+
+    facing_angle_breakdown=90;
+    facing_angle_step=11.25;
+    facing_angle=90;
+
     x_val_ = 0;
     y_val_ = 0;
     width_frame =0;
@@ -23,7 +28,7 @@ bool PlayerObject::LoadImg(std::string path, SDL_Renderer* screen)
   bool ret = BaseObject::LoadImage(path, screen);
   if(ret)
   {
-    width_frame  = rect_.w;
+    width_frame  = rect_.w/8;
     height_frame = rect_.h;
   }
   return ret;
@@ -60,6 +65,12 @@ void PlayerObject::Show(SDL_Renderer* des)
   
   if(input_type.left == 1 && input_type.up == 1)
   {
+    facing_angle=-45;
+    if(facing_angle_breakdown>facing_angle){
+      facing_angle_breakdown-=facing_angle_step;
+    }else if(facing_angle_breakdown<facing_angle){
+      facing_angle_breakdown+=facing_angle_step;
+    }
     frame ++;
     if(x_pos_ > 0 && y_pos_ > 0)
     {
@@ -69,6 +80,12 @@ void PlayerObject::Show(SDL_Renderer* des)
   }
   else if(input_type.up == 1 && input_type.right == 1)
   {
+    facing_angle=45;
+    if(facing_angle_breakdown>facing_angle){
+      facing_angle_breakdown-=facing_angle_step;
+    }else if(facing_angle_breakdown<facing_angle){
+      facing_angle_breakdown+=facing_angle_step;
+    }
     frame++;
     if(x_pos_ + width_frame <= SCREEN_WIDTH && y_pos_ > 0){
       x_pos_ += 5;
@@ -77,6 +94,12 @@ void PlayerObject::Show(SDL_Renderer* des)
   }
   else if(input_type.down == 1 && input_type.right == 1)
   {
+    facing_angle=135;
+    if(facing_angle_breakdown>facing_angle){
+      facing_angle_breakdown-=facing_angle_step;
+    }else if(facing_angle_breakdown<facing_angle){
+      facing_angle_breakdown+=facing_angle_step;
+    }
     frame++;
     if(x_pos_ + width_frame <= SCREEN_WIDTH && y_pos_ + height_frame < SCREEN_HEIGHT){
       x_pos_ += 5;
@@ -85,6 +108,12 @@ void PlayerObject::Show(SDL_Renderer* des)
   }
   else if(input_type.down == 1 && input_type.left == 1)
   {
+    facing_angle=-135;
+    if(facing_angle_breakdown>facing_angle){
+      facing_angle_breakdown-=facing_angle_step;
+    }else if(facing_angle_breakdown<facing_angle){
+      facing_angle_breakdown+=facing_angle_step;
+    }
     frame++;
     if(x_pos_ >= 0 && y_pos_ + height_frame < SCREEN_HEIGHT){
       x_pos_ -= 5;
@@ -93,21 +122,45 @@ void PlayerObject::Show(SDL_Renderer* des)
   }
   else if(input_type.left == 1)
   {
+    facing_angle=-90;
+    if(facing_angle_breakdown>facing_angle){
+      facing_angle_breakdown-=facing_angle_step;
+    }else if(facing_angle_breakdown<facing_angle){
+      facing_angle_breakdown+=facing_angle_step;
+    }
     frame++;
     if(x_pos_ > 0) x_pos_ -=5;
   }
   else if(input_type.right == 1)
   {
+    facing_angle=90;
+    if(facing_angle_breakdown>facing_angle){
+      facing_angle_breakdown-=facing_angle_step;
+    }else if(facing_angle_breakdown<facing_angle){
+      facing_angle_breakdown+=facing_angle_step;
+    }
     frame++;
     if(x_pos_ < SCREEN_WIDTH - width_frame) x_pos_ +=5;
   }
   else if(input_type.up == 1)
   {
+    facing_angle=0;
+    if(facing_angle_breakdown>facing_angle){
+      facing_angle_breakdown-=facing_angle_step;
+    }else if(facing_angle_breakdown<facing_angle){
+      facing_angle_breakdown+=facing_angle_step;
+    }
     frame++;
     if(y_pos_ >= 0) y_pos_ -= 5;
   }
   else if(input_type.down == 1)
   {
+    facing_angle=180;
+    if(facing_angle_breakdown>facing_angle){
+      facing_angle_breakdown-=facing_angle_step;
+    }else if(facing_angle_breakdown<facing_angle){
+      facing_angle_breakdown+=facing_angle_step;
+    }
     frame++;
     if(y_pos_ + height_frame <= SCREEN_HEIGHT) y_pos_ += 5;
   }
@@ -125,7 +178,7 @@ void PlayerObject::Show(SDL_Renderer* des)
 
   SDL_Rect* current_clip = &frame_clip[frame];
   SDL_Rect renderQuad = {rect_.x,rect_.y,width_frame,height_frame};
-  SDL_RenderCopy(des,p_object_,current_clip,&renderQuad);
+  SDL_RenderCopyEx(des,p_object_,current_clip,&renderQuad,facing_angle_breakdown,NULL,SDL_FLIP_NONE);
 }
 
 void PlayerObject::HandleInputAction(SDL_Event events, SDL_Renderer* screen)

@@ -34,6 +34,12 @@ bool BaseObject::LoadImage(std::string path, SDL_Renderer* screen)
     }
 
     p_object_ = newTexture;
+    if (p_object_==NULL)
+    {
+        std::cout<< "Error with back ground"<<std::endl;
+        return -1;
+    }
+    
     return p_object_ ;
 }
 

@@ -88,7 +88,7 @@ void angle()
 
 void Force()
 {
-    if(sqrt(pow(std::abs(g_Ball.x_center -g_Character_1.x_center),2)+pow(std::abs(g_Ball.y_center -g_Character_1.y_center),2)) < 60 && g_Ball.Force == 0)
+    if(sqrt(pow(std::abs(g_Ball.x_center -g_Character_1.x_center),2)+pow(std::abs(g_Ball.y_center -g_Character_1.y_center),2)) < (25+7) && g_Ball.Force == 0)
     {
         if(g_Ball.x_center > g_Character_1.x_center )
         {
@@ -117,7 +117,7 @@ void Force()
         g_Ball.Force = 100;
         angle();
     }
-    else if(sqrt(pow(std::abs(g_Ball.x_center -g_Character_1.x_center),2)+pow(std::abs(g_Ball.y_center -g_Character_1.y_center),2)) < 60 && g_Ball.Force != 0)
+    else if(sqrt(pow(std::abs(g_Ball.x_center -g_Character_1.x_center),2)+pow(std::abs(g_Ball.y_center -g_Character_1.y_center),2)) < (25+7) && g_Ball.Force != 0)
     {
         if(g_Ball.x_center > g_Character_1.x_center )
         {
@@ -323,18 +323,20 @@ int main( int argc, char *argv[] )
         return -1;
     }
 
-    std::cout<<(g_Character_1.LoadImg(PLAYER_BLUE_TEAM_FRAMES[0], g_Screen)?"success":"Failed to load player image")<<std::endl;
+    std::cout<<(g_Character_1.LoadImg(PLAYER_BLUE_TEAM_SPRITE, g_Screen)?"success":"Failed to load player image")<<std::endl;
     g_Character_1.Set_Clip();
 
     std::cout<<(g_Ball.LoadImg(BALL, g_Screen)?"success to load ball image":"Failed to load ball image")<<std::endl;
     g_Ball.x_pos_ = 100;
     g_Ball.y_pos_ = 200;
 
+    std::cout<<g_Character_1.GetRect().w<<" "<<g_Character_1.GetRect().h<<std::endl;
+    
+
     while(!isQuit)
     {
         if(SDL_PollEvent(&g_Event))
         {
-            // std::cout<< gameStatus<<std::endl;
 
             if(g_Event.type == SDL_QUIT)
             {
@@ -342,9 +344,9 @@ int main( int argc, char *argv[] )
             }
             g_Character_1.HandleInputAction(g_Event,g_Screen);
         }
-        game_status_machine();
         SDL_RenderClear(g_Screen);
         // SDL_SetRenderDrawColor(g_Screen,255,255,255,255);
+        game_status_machine();
         g_BackGround.Render(g_Screen,NULL);
         g_Menu.ShowMenu();
         g_Character_1.Show(g_Screen);

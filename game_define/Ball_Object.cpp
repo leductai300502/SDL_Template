@@ -49,7 +49,7 @@ void BallObject::Center()
 void BallObject::Show(SDL_Renderer* des)
 {
 
-  LoadImg("ball.png",des);
+  // LoadImg(BALL,des);
 
 
   rect_.x = x_pos_;

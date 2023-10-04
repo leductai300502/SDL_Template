@@ -10,7 +10,6 @@ public:
   PlayerObject();
   ~PlayerObject();
 
-
   int  Walk_rigth = 0;
   int  Walk_left = 1;
   int  Walk_up = 2;
@@ -29,6 +28,10 @@ public:
   float x_val_;
   float y_val_;
   
+  //three variable below will handle rotation player 
+  double facing_angle_breakdown;
+  double facing_angle_step;
+  double facing_angle;
 
   float x_center;
   float y_center;

@@ -31,8 +31,11 @@ extern std::string BALL;
 //// RUN ANIMATION'S FRAMES ////
 ///// BLUE TEAM /////
 extern std::string PLAYER_BLUE_TEAM_FRAMES[8];
+extern std::string PLAYER_BLUE_TEAM_SPRITE;
 
 //// RED TEAM ////
 extern std::string PLAYER_RED_TEAM_FRAMES[8];
+extern std::string PLAYER_RED_TEAM_SPRITE;
+
 
 #endif

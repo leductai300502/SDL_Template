@@ -109,7 +109,7 @@ void Menu::RunMenu(){
             if(g_Event.button.x > this->marginLeft && g_Event.button.x <(this->marginLeft+SINGLEPLAYER_BTN_WIDTH)){
                 int marginTopOfButton=GameTitle.GetRect().y+GAME_NAME_HEIGHT+this->gap;
                 if(g_Event.button.y >marginTopOfButton && g_Event.button.y<(marginTopOfButton+SINGLEPLAYER_BTN_HEIGHT)){
-                    gameStatus = SINGPLEPLAYER_MODE;
+                    currentGameStatus = SINGPLEPLAYER_MODE;
                     std::cout<< "Changing to SINGPLEPLAYER_MODE"<<std::endl;
                 }
             }
@@ -118,7 +118,7 @@ void Menu::RunMenu(){
             if(g_Event.button.x > this->marginLeft && g_Event.button.x <(this->marginLeft+MULTIPLAYER_BTN_WIDTH)){
                 int marginTopOfButton=SinglePlayerMode.GetRect().y+SINGLEPLAYER_BTN_HEIGHT+this->gap;
                 if(g_Event.button.y >marginTopOfButton && g_Event.button.y<(marginTopOfButton+MULTIPLAYER_BTN_HEIGHT)){
-                    gameStatus = MULTIPLAYER_MODE;
+                    currentGameStatus = MULTIPLAYER_MODE;
                     std::cout<< "Changing to MULTIPLAYER_MODE"<<std::endl;
 
                 }
@@ -128,7 +128,7 @@ void Menu::RunMenu(){
             if(g_Event.button.x > this->marginLeft && g_Event.button.x <(this->marginLeft+OPTIONS_BTN_WIDTH)){
                 int marginTopOfButton=MultiPlayerMode.GetRect().y+MULTIPLAYER_BTN_HEIGHT+this->gap;
                 if(g_Event.button.y >marginTopOfButton && g_Event.button.y<(marginTopOfButton+OPTIONS_BTN_HEIGHT)){
-                    gameStatus = OPTIONS_MODE;
+                    currentGameStatus = OPTIONS_MODE;
                     std::cout<< "Changing to OPTIONS_MODE"<<std::endl;
 
                 }
@@ -138,7 +138,7 @@ void Menu::RunMenu(){
             if(g_Event.button.x > this->marginLeft && g_Event.button.x <(this->marginLeft+CREDITS_BTN_WIDTH)){
                 int marginTopOfButton=OptionsMode.GetRect().y+OPTIONS_BTN_HEIGHT+this->gap;
                 if(g_Event.button.y >marginTopOfButton && g_Event.button.y<(marginTopOfButton+CREDITS_BTN_HEIGHT)){
-                    gameStatus = CREDITS_MODE;
+                    currentGameStatus = CREDITS_MODE;
                     std::cout<< "Changing to CREDITS_MODE"<<std::endl;
 
                 }
@@ -148,7 +148,7 @@ void Menu::RunMenu(){
             if(g_Event.button.x > this->marginLeft && g_Event.button.x <(this->marginLeft+QUIT_BTN_WIDTH)){
                 int marginTopOfButton=CreditsMode.GetRect().y+CREDITS_BTN_HEIGHT+this->gap;
                 if(g_Event.button.y >marginTopOfButton && g_Event.button.y<(marginTopOfButton+QUIT_BTN_HEIGHT)){
-                    gameStatus = QUIT_MODE;
+                    currentGameStatus = QUIT_MODE;
                     std::cout<< "Changing to QUIT_MODE"<<std::endl;
 
                 }

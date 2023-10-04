@@ -30,13 +30,6 @@ class Menu
 {
 private:
     /* data */
-    // BaseObject GameTitle;
-    // BaseObject SinglePlayerMode;
-    // BaseObject MultiPlayerMode;
-    // BaseObject OptionsMode;
-    // BaseObject CreditsMode;
-    // BaseObject QuitMode;
-
     int marginLeft;
     int marginTop;
     int gap;

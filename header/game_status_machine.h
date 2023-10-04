@@ -14,7 +14,8 @@
 #define CREDITS_MODE 10005
 #define QUIT_MODE 10006
 
-extern int gameStatus; /// store current status
+extern int previousGameStatus;
+extern int currentGameStatus; /// store current status
 
 void game_status_machine(); /// changing status
 
