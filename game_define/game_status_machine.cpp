@@ -56,17 +56,45 @@ void game_status_machine(){
             {
                 g_BackGround1.Free();
                 g_BackGround1.LoadImage("assets/Options_mode/options.png",g_Screen,0,0);
+                Back.LoadImage("assets/common_btns/Back_btn.png",g_Screen,100,50);
+                Back.rect_.y = 600;
+                Back.rect_.x = 50;
                 previousGameStatus=currentGameStatus;
-                State = MULTIPLAYER_MODE;
+                State = OPTIONS_MODE;
             }
             g_BackGround1.Render(g_Screen,NULL);
-            State = OPTIONS_MODE;
+            if(music_control == 0)
+            {
+
+                MusicOn.LoadImage("assets/common_btns/2-removebg-preview.png",g_Screen,0,0);
+                MusicOn.rect_.x = 100;
+                MusicOn.rect_.y = 300;
+                MusicOn.Render(g_Screen,NULL);
+            }
+            else
+            {
+                MusicOn.LoadImage("assets/common_btns/1-removebg-preview.png",g_Screen,0,0);
+                MusicOn.rect_.x = 100;
+                MusicOn.rect_.y = 300;
+                MusicOn.Render(g_Screen,NULL);
+            }
+            Back.Render(g_Screen,NULL);
             break;
 
         case CREDITS_MODE:
             g_Menu.HiddenMenu();
-            State = CREDITS_MODE;
-            
+            if (previousGameStatus!=currentGameStatus)
+            {
+                g_BackGround1.Free();
+                g_BackGround1.LoadImage("assets/Credits_mode/credits.png",g_Screen,0,0);
+                Back.LoadImage("assets/common_btns/Back_btn.png",g_Screen,100,50);
+                Back.rect_.y = 600;
+                Back.rect_.x = 50;
+                previousGameStatus=currentGameStatus;
+                State = CREDITS_MODE;
+            }
+            g_BackGround1.Render(g_Screen,NULL);
+            Back.Render(g_Screen,NULL);
             break;
         case QUIT_MODE:
             g_Menu.HiddenMenu();

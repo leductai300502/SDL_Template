@@ -6,6 +6,9 @@ BaseObject MultiPlayerMode;
 BaseObject OptionsMode;
 BaseObject CreditsMode;
 BaseObject QuitMode;
+BaseObject MusicOn;
+BaseObject MusicOff;
+BaseObject Back;
 
 Menu::Menu(int marginLeft, int marginTop, int gap){
     this->marginLeft=marginLeft;

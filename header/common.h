@@ -43,6 +43,9 @@ extern int State;
 extern int previousGameStatus;
 extern int currentGameStatus; /// store current status
 
+extern int music_control;
+extern int sound_control;
+
 // extern BaseObject g_BackGround;
 
 

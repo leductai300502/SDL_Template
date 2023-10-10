@@ -40,5 +40,8 @@ extern BaseObject MultiPlayerMode;
 extern BaseObject OptionsMode;
 extern BaseObject CreditsMode;
 extern BaseObject QuitMode;
+extern BaseObject MusicOn;
+extern BaseObject MusicOff;
+extern BaseObject Back;
 
 #endif

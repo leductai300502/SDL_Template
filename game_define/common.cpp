@@ -19,3 +19,6 @@ int currentGameStatus=START_MODE;
 
 bool shoot = false;
 bool isQuit=false;
+
+int music_control = 0;
+int sound_control = 0;

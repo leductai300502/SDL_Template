@@ -13,11 +13,14 @@ BaseObject g_BackGround;
 BaseObject g_Goal_BackGround;
 BaseObject g_Setting;
 
+BaseObject Cup;
+
 BaseObject Setting_Home_Bnt;
 BaseObject Setting_Continute_Bnt;
 BaseObject Setting_Quit_Bnt;
 BaseObject Setting_SoundOn_Bnt;
 BaseObject Setting_SoundOff_Bnt;
+BaseObject Finish_Score;
 
 BaseObject g_GUI;
 
@@ -29,6 +32,8 @@ BaseObject Button2;
 BaseObject g_Score_BackGround;
 BaseObject Time_Break_Skill;
 BaseObject Magic_Skill;
+BaseObject Run;
+BaseObject Run1;
 
 PlayerObject g_Goal_frame;
 PlayerObject g_Goal_frame1;
@@ -89,7 +94,7 @@ std::string score1 ="";
 std::string score2 ="";
 
 int setting_flag = 0;
-int music_control = 0;
+// int music_control = 0;
 
 // Mix_Chunk *music2 = Mix_LoadWAV("sounds/ballbouncing.wav");
 
@@ -368,95 +373,152 @@ void renderText(SDL_Renderer *m_renderer, int xp, int yp, int w, int h, std::str
 
 // }
 
-void AutoMove(PlayerObject *g_Character_)
+void AutoMove(PlayerObject *g_Character_, int team)
 {
     // std::cout<<g_Character_->x_pos_<<std::endl;
     // std::cout<<g_Character_->y_pos_<<std::endl;
     // trả input về 0 mỗi lần di chuyển xong
-    if(g_Character_->x_pos_ >= -10 && g_Character_->x_pos_ + g_Character_->width_frame <= SCREEN_WIDTH + 10 && g_Character_->y_pos_ >= -10 && g_Character_->y_pos_ + g_Character_->height_frame <= SCREEN_HEIGHT + 10){
-        if(sqrt(pow(std::abs(g_Ball.x_center -g_Character_->x_center),2)+pow(std::abs(g_Ball.y_center -g_Character_->y_center),2)) > 250)
-        {
-            if(g_Ball.x_center > g_Character_->x_center)
+    g_Character_->input_type.right = 0;
+    g_Character_->input_type.up = 0;
+    g_Character_->input_type.down = 0;
+    g_Character_->input_type.left = 0;
+    if(team == 0)
+    {
+        if(g_Character_->x_pos_ >= -10 && g_Character_->x_pos_ + g_Character_->width_frame <= SCREEN_WIDTH + 10 && g_Character_->y_pos_ >= -10 && g_Character_->y_pos_ + g_Character_->height_frame <= SCREEN_HEIGHT + 10){
+            if(sqrt(pow(std::abs(g_Ball.x_center -g_Character_->x_center),2)+pow(std::abs(g_Ball.y_center -g_Character_->y_center),2)) > 100 && g_Ball.x_center < 450)
             {
-                // g_Character_->x_pos_ += 5;
-                std::cout<<"1"<<std::endl;
-                g_Character_->status = 0;
-                g_Character_->input_type.right = 1;
+                if(g_Ball.x_center > g_Character_->x_center)
+                {
+                    // g_Character_->x_pos_ += 5;
+                    g_Character_->input_type.right = 1;
+                }
+                if(g_Ball.y_center > g_Character_->y_center)
+                {
+                    // g_Character_->y_pos_ +=5;
+                    g_Character_->input_type.down = 1;
+                }
+                if(g_Ball.x_center < g_Character_->x_center)
+                {
+                    // g_Character_->x_pos_ -=5;
+                    g_Character_->input_type.left = 1;
+                }
+                if(g_Ball.y_center < g_Character_->y_center)
+                {
+                    // g_Character_->y_pos_ -=5;
+                    g_Character_->input_type.up = 1;
+                }
             }
-            if(g_Ball.y_center > g_Character_->y_center)
+            else if(sqrt(pow(std::abs(g_Ball.x_center -g_Character_->x_center),2)+pow(std::abs(g_Ball.y_center -g_Character_->y_center),2)) > 100 && g_Ball.x_center >= 450)
             {
-                // g_Character_->y_pos_ +=5;
-                std::cout<<"2"<<std::endl;
-                g_Character_->status = 3;
-                g_Character_->input_type.down = 1;
-            }
-            if(g_Ball.x_center < g_Character_->x_center)
-            {
-                // g_Character_->x_pos_ -=5;
-                std::cout<<"3"<<std::endl;
-                g_Character_->status = 1;
-                g_Character_->input_type.left = 1;
-            }
-            if(g_Ball.y_center < g_Character_->y_center)
-            {
-                // g_Character_->y_pos_ -=5;
-                std::cout<<"4"<<std::endl;
-                g_Character_->status = 2;
-                g_Character_->input_type.up = 1;
-            }
-        }
-        else if(sqrt(pow(std::abs(g_Ball.x_center -g_Character_->x_center),2)+pow(std::abs(g_Ball.y_center -g_Character_->y_center),2)) < 200)
-        {
-            if(g_Ball.x_center > g_Character_->x_center)
-            {
-                // g_Character_->x_pos_ -= 5;
-                std::cout<<"5"<<std::endl;
-                g_Character_->status = 1;
-                g_Character_->input_type.left = 1;
-            }
-            if(g_Ball.y_center > g_Character_->y_center)
-            {
-                // g_Character_->y_pos_ -=5;
-                std::cout<<"6"<<std::endl;
-                g_Character_->status = 2;
-                g_Character_->input_type.up = 1;
-            }
-            if(g_Ball.x_center < g_Character_->x_center)
-            {
-                // g_Character_->x_pos_ +=5;
-                std::cout<<"7"<<std::endl;
-                g_Character_->status = 0;
-                g_Character_->input_type.right = 1;
-            }
-            if(g_Ball.y_center < g_Character_->y_center)
-            {
-                // g_Character_->y_pos_ +=5;
-                std::cout<<"8"<<std::endl;
-                g_Character_->status = 3;
-                g_Character_->input_type.down = 1;
-            }
-        }
-        // else if (sqrt(pow(std::abs(g_Ball.x_center -g_Character_->x_center),2)+pow(std::abs(g_Ball.y_center -g_Character_->y_center),2)) > 300)
-        // {
-        //     if(g_Character_->x_pos_ > 300)
-        //     {
-        //         g_Character_->status = 0;
-        //         g_Character_->input_type.right = 1;
-        //     }
-        // }
-        else{
-            std::cout<<"9"<<std::endl;
-            g_Character_->status = 0;
-            g_Character_->input_type.left = 0;
-            g_Character_->input_type.right = 0;
-            g_Character_->input_type.up = 0;
-            g_Character_->input_type.down = 0;
-        }
-    }
+                if(g_Character_->x_center > 205)
+                {
+                    // g_Character_->x_pos_ += 5;
 
+                    g_Character_->input_type.left = 1;
+                }
+                if(g_Character_->y_center > 350)
+                {
+                    // g_Character_->y_pos_ +=5;
+
+                    g_Character_->input_type.up = 1;
+                }
+                if(g_Character_->y_center < 330 )
+                {
+                    // g_Character_->x_pos_ -=5;
+
+                    g_Character_->input_type.down = 1;
+                }
+                if(g_Character_->x_center <= 205 && g_Character_->y_center <= 350 && g_Character_->y_center >= 330)
+                {
+                    g_Character_->input_type.left = 0;
+                    g_Character_->input_type.right = 0;
+                    g_Character_->input_type.up = 0;
+                    g_Character_->input_type.down = 0;
+                }
+            }
+            else{
+                g_Character_->input_type.left = 0;
+                g_Character_->input_type.right = 0;
+                g_Character_->input_type.up = 0;
+                g_Character_->input_type.down = 0;
+            }
+        }
+
+    }
+    if(team == 1)
+    {
+        if(g_Character_->x_pos_ >= -10 && g_Character_->x_pos_ + g_Character_->width_frame <= SCREEN_WIDTH + 10 && g_Character_->y_pos_ >= -10 && g_Character_->y_pos_ + g_Character_->height_frame <= SCREEN_HEIGHT + 10){
+            if(sqrt(pow(std::abs(g_Ball.x_center -g_Character_->x_center),2)+pow(std::abs(g_Ball.y_center -g_Character_->y_center),2)) > 100 && g_Ball.x_center >= 450)
+            {
+                if(g_Ball.x_center > g_Character_->x_center)
+                {
+                    // g_Character_->x_pos_ += 5;
+                    g_Character_->input_type.right = 1;
+                }
+                if(g_Ball.y_center > g_Character_->y_center)
+                {
+                    // g_Character_->y_pos_ +=5;
+                    g_Character_->input_type.down = 1;
+                }
+                if(g_Ball.x_center < g_Character_->x_center)
+                {
+                    // g_Character_->x_pos_ -=5;
+                    g_Character_->input_type.left = 1;
+                }
+                if(g_Ball.y_center < g_Character_->y_center)
+                {
+                    // g_Character_->y_pos_ -=5;
+                    g_Character_->input_type.up = 1;
+                }
+            }
+            else if(sqrt(pow(std::abs(g_Ball.x_center -g_Character_->x_center),2)+pow(std::abs(g_Ball.y_center -g_Character_->y_center),2)) > 100 && g_Ball.x_center < 450)
+            {
+                if(g_Character_->x_center < 680)
+                {
+                    // g_Character_->x_pos_ += 5;
+
+                    g_Character_->input_type.right = 1;
+                }
+                if(g_Character_->y_center > 350)
+                {
+                    // g_Character_->y_pos_ +=5;
+
+                    g_Character_->input_type.up = 1;
+                }
+                if(g_Character_->y_center < 330 )
+                {
+                    // g_Character_->x_pos_ -=5;
+
+                    g_Character_->input_type.down = 1;
+                }
+                if(g_Character_->x_center >= 680 && g_Character_->y_center <= 350 && g_Character_->y_center >= 330)
+                {
+                    g_Character_->input_type.left = 0;
+                    g_Character_->input_type.right = 0;
+                    g_Character_->input_type.up = 0;
+                    g_Character_->input_type.down = 0;
+                }
+            }
+            else{
+                g_Character_->input_type.left = 0;
+                g_Character_->input_type.right = 0;
+                g_Character_->input_type.up = 0;
+                g_Character_->input_type.down = 0;
+            }
+        }
+
+    }
+   
 }
 
-
+void Music()
+{
+    Mix_Music *music = Mix_LoadMUS("sounds/theme.mp3");
+    if (music == nullptr) {
+        SDL_Log("Không thể tải âm thanh: %s", Mix_GetError());
+    }
+    Mix_PlayMusic(music, 20);
+}
 
 void Sound_Ball()
 {
@@ -476,8 +538,7 @@ void angle(PlayerObject *g_Character_)
     g_Ball.angle = std::acos(x / v);
 
     g_Ball.angle = g_Ball.angle * 180.0 / M_PI;
-
-    Sound_Ball();
+    if(sound_control == 0) Sound_Ball();
 
     // Mix_PlayChannel(1, music2, 0);
     // std::cout<<g_Ball.angle<<std::endl;
@@ -585,7 +646,7 @@ void Force()
         g_Ball.Force = 100 - g_Ball.Force;
         angle(&g_Character_2);
     }
-    else if(sqrt(pow(std::abs(g_Ball.x_center -g_Character_3.x_center),2)+pow(std::abs(g_Ball.y_center -g_Character_3.y_center),2)) < 60 && g_Ball.Force == 0)
+    else if(sqrt(pow(std::abs(g_Ball.x_center -g_Character_3.x_center),2)+pow(std::abs(g_Ball.y_center -g_Character_3.y_center),2)) < 60 && g_Ball.Force == 0 && State != SINGPLEPLAYER_MODE)
     {
         if(g_Ball.x_center > g_Character_3.x_center )
         {
@@ -610,7 +671,7 @@ void Force()
         g_Ball.Force = 100;
         angle(&g_Character_3);
     }
-    else if(sqrt(pow(std::abs(g_Ball.x_center -g_Character_3.x_center),2)+pow(std::abs(g_Ball.y_center -g_Character_3.y_center),2)) < 60 && g_Ball.Force != 0)
+    else if(sqrt(pow(std::abs(g_Ball.x_center -g_Character_3.x_center),2)+pow(std::abs(g_Ball.y_center -g_Character_3.y_center),2)) < 60 && g_Ball.Force != 0 && State != SINGPLEPLAYER_MODE)
     {
         if(g_Ball.x_center > g_Character_3.x_center )
         {
@@ -635,7 +696,7 @@ void Force()
         g_Ball.Force = 100 - g_Ball.Force;
         angle(&g_Character_4);
     }
-     else if(sqrt(pow(std::abs(g_Ball.x_center -g_Character_4.x_center),2)+pow(std::abs(g_Ball.y_center -g_Character_4.y_center),2)) < 60 && g_Ball.Force == 0)
+     else if(sqrt(pow(std::abs(g_Ball.x_center -g_Character_4.x_center),2)+pow(std::abs(g_Ball.y_center -g_Character_4.y_center),2)) < 60 && g_Ball.Force == 0 && State != SINGPLEPLAYER_MODE)
     {
         if(g_Ball.x_center > g_Character_4.x_center )
         {
@@ -660,7 +721,7 @@ void Force()
         g_Ball.Force = 100;
         angle(&g_Character_4);
     }
-    else if(sqrt(pow(std::abs(g_Ball.x_center -g_Character_4.x_center),2)+pow(std::abs(g_Ball.y_center -g_Character_4.y_center),2)) < 60 && g_Ball.Force != 0)
+    else if(sqrt(pow(std::abs(g_Ball.x_center -g_Character_4.x_center),2)+pow(std::abs(g_Ball.y_center -g_Character_4.y_center),2)) < 60 && g_Ball.Force != 0 && State != SINGPLEPLAYER_MODE)
     {
         if(g_Ball.x_center > g_Character_4.x_center )
         {
@@ -863,21 +924,6 @@ void Run_Skill()
 
 void Run_Skill_1()
 {
-    Time_Break_Skill.LoadImage(Time_Break_Skill.list1[count_skill].c_str(),g_Screen,900,700);
-    Time_Break_Skill.Render(g_Screen,NULL);
-    if(count_skill >= 50)
-    {
-        count_skill = 0;
-    }
-    count_skill++;
-    if(SDL_GetTicks() - time_pass >= 2000)
-    {
-        is_skill = false;
-        count_skill = 0;
-        finish.unpause();
-        finish.start_tick += 5000;
-        Run_Skill();
-    }
 
 }
 
@@ -908,21 +954,6 @@ void Single_Player()
     renderText(g_Screen, 400, 30 , 30, 30, "FreeSans.ttf", 80,  0, 0, 0, 255, score1.c_str());
     renderText(g_Screen, 480, 30 , 30, 30, "FreeSans.ttf", 80,  0, 0, 0, 255, score2.c_str());
 
-    // if(is_chances == 1)
-    // {
-    //     AutoMove(&g_Character_1);
-    // }
-    // else{
-    //     AutoMove(&g_Character_3);
-    // }
-
-    // if(is_chances_1 == 1)
-    // {
-    //     AutoMove(&g_Character_2);
-    // }
-    // else{
-    //     AutoMove(&g_Character_4);
-    // }
 
     g_Character_1.Show(g_Screen);
     g_Character_2.Show(g_Screen);
@@ -937,8 +968,8 @@ void Single_Player()
         Setting_Home_Bnt.Render(g_Screen,NULL);
         Setting_Continute_Bnt.Render(g_Screen,NULL);
         Setting_Quit_Bnt.Render(g_Screen,NULL);
-        Setting_SoundOn_Bnt.Render(g_Screen,NULL);
-        Setting_SoundOff_Bnt.Render(g_Screen,NULL);
+        if(sound_control == 0) Setting_SoundOn_Bnt.Render(g_Screen,NULL);
+        if(sound_control == 1) Setting_SoundOff_Bnt.Render(g_Screen,NULL);
     }
 
     if(finish_option)
@@ -946,50 +977,25 @@ void Single_Player()
         g_Finish_Option.Render(g_Screen);
         Button1.Render(g_Screen);
         Button2.Render(g_Screen);
-        if(score_blue > score_red)
-        {
-            renderText(g_Screen, 500, 200 , 30, 30, "FreeSans.ttf", 30,  255, 25, 25, 255, "Blue Team Win");
-        }
-        else if(score_blue > score_red)
-        {
-            renderText(g_Screen, 500, 200 , 30, 30, "FreeSans.ttf", 30,  255, 25, 25, 255, "Red Team Win");
-        }
-        else{
-            renderText(g_Screen, 520, 200 , 80, 80, "FreeSans.ttf", 80,  255, 25, 25, 255, "Draw !!!");
-        }
-        renderText(g_Screen, 500, 280 , 40, 40, "FreeSans.ttf", 40,  255, 25, 25, 255, std::to_string(score_blue).c_str());
-        renderText(g_Screen, 540, 280 , 20, 40, "FreeSans.ttf", 40,  255, 25, 25, 255, ":");
-        renderText(g_Screen, 560, 280 , 40, 40, "FreeSans.ttf", 40,  255, 25, 25, 255, std::to_string(score_red).c_str());
+        Finish_Score.Render(g_Screen);
+        Cup.Render(g_Screen);
+        // if(score_blue > score_red)
+        // {
+        //     renderText(g_Screen, 500, 200 , 30, 30, "FreeSans.ttf", 30,  255, 25, 25, 255, "Blue Team Win");
+        // }
+        // else if(score_blue > score_red)
+        // {
+        //     renderText(g_Screen, 500, 200 , 30, 30, "FreeSans.ttf", 30,  255, 25, 25, 255, "Red Team Win");
+        // }
+        // else{
+        //     renderText(g_Screen, 520, 200 , 80, 80, "FreeSans.ttf", 80,  255, 25, 25, 255, "Draw !!!");
+        // }
+        renderText(g_Screen, 530, 285 , 20, 40, "FreeSans.ttf", 40,  255, 25, 25, 255, std::to_string(score_blue).c_str());
+        // renderText(g_Screen, 540, 280 , 20, 40, "FreeSans.ttf", 40,  255, 25, 25, 255, ":");
+        renderText(g_Screen, 560, 285 , 20, 40, "FreeSans.ttf", 40,  255, 25, 25, 255, std::to_string(score_red).c_str());
 
     } 
     
-    if(is_skill)
-    {
-        Run_Skill_1();
-    }
-
-    if(is_skill_1)
-    {
-
-        Magic_Skill.LoadImage(Magic_Skill.list2[count_skill].c_str(),g_Screen,900,700);
-
-        Magic_Skill.Render(g_Screen,NULL);
-        // std::cout<<"hihi"<<std::endl;
-        if(count_skill >= 17)
-        {
-            count_skill = 0;
-        }
-        count_skill++;
-        if(SDL_GetTicks() - finish.start_tick - time_pass >= 1000)
-        {
-            is_skill_1 = false;
-            count_skill = 0;
-            finish.unpause();
-
-            Run_Skill_1();
-        }
-    }
-
     if(is_goal)
     {
         // g_Goal_BackGround.LoadImage(g_Goal_BackGround.list[count_goal].c_str(),g_Screen,0,0);
@@ -1058,27 +1064,45 @@ void Multi_Player()
     renderText(g_Screen, 400, 30 , 30, 30, "FreeSans.ttf", 80,  0, 0, 0, 255, score1.c_str());
     renderText(g_Screen, 480, 30 , 30, 30, "FreeSans.ttf", 80,  0, 0, 0, 255, score2.c_str());
 
-    // if(is_chances == 1)
-    // {
-    //     AutoMove(&g_Character_1);
-    // }
-    // else{
-    //     AutoMove(&g_Character_3);
-    // }
+    // Run.rect_.x = g_Character_3.x_pos_;
+    // Run.rect_.y = g_Character_3.y_pos_+30;
 
-    // if(is_chances_1 == 1)
-    // {
-    //     AutoMove(&g_Character_2);
-    // }
-    // else{
-    //     AutoMove(&g_Character_4);
-    // }
+    // Run1.rect_.x = g_Character_4.x_pos_;
+    // Run1.rect_.y = g_Character_4.y_pos_+30;
+
+    if(is_chances == 1)
+    {
+        AutoMove(&g_Character_1,0);
+        Run.rect_.x = g_Character_3.x_pos_ - 20;
+        Run.rect_.y = g_Character_3.y_pos_;
+    }
+    else{
+        AutoMove(&g_Character_3,0);
+        Run.rect_.x = g_Character_1.x_pos_- 20;
+        Run.rect_.y = g_Character_1.y_pos_;
+    }
+
+    if(is_chances_1 == 1)
+    {
+        AutoMove(&g_Character_2,1);
+        Run1.rect_.x = g_Character_4.x_pos_- 20;
+        Run1.rect_.y = g_Character_4.y_pos_;
+    }
+    else{
+        AutoMove(&g_Character_4,1);
+        Run1.rect_.x = g_Character_2.x_pos_- 20;
+        Run1.rect_.y = g_Character_2.y_pos_;
+    }
+
+    Run.Render(g_Screen,NULL);
+    Run1.Render(g_Screen,NULL);
 
     g_Character_1.Show(g_Screen);
     g_Character_2.Show(g_Screen);
     // g_Goal_BackGround.Show2(g_Screen);
     g_Character_3.Show(g_Screen);
     g_Character_4.Show(g_Screen);
+
     g_Ball.Show(g_Screen);
 
     if(setting_flag == 1)
@@ -1087,8 +1111,8 @@ void Multi_Player()
         Setting_Home_Bnt.Render(g_Screen,NULL);
         Setting_Continute_Bnt.Render(g_Screen,NULL);
         Setting_Quit_Bnt.Render(g_Screen,NULL);
-        Setting_SoundOn_Bnt.Render(g_Screen,NULL);
-        Setting_SoundOff_Bnt.Render(g_Screen,NULL);
+        if(sound_control == 0) Setting_SoundOn_Bnt.Render(g_Screen,NULL);
+        if(sound_control == 1) Setting_SoundOff_Bnt.Render(g_Screen,NULL);
     }
 
     if(finish_option)
@@ -1096,49 +1120,25 @@ void Multi_Player()
         g_Finish_Option.Render(g_Screen);
         Button1.Render(g_Screen);
         Button2.Render(g_Screen);
-        if(score_blue > score_red)
-        {
-            renderText(g_Screen, 500, 200 , 30, 30, "FreeSans.ttf", 30,  255, 25, 25, 255, "Blue Team Win");
-        }
-        else if(score_blue > score_red)
-        {
-            renderText(g_Screen, 500, 200 , 30, 30, "FreeSans.ttf", 30,  255, 25, 25, 255, "Red Team Win");
-        }
-        else{
-            renderText(g_Screen, 520, 200 , 80, 80, "FreeSans.ttf", 80,  255, 25, 25, 255, "Draw !!!");
-        }
-        renderText(g_Screen, 500, 280 , 40, 40, "FreeSans.ttf", 40,  255, 25, 25, 255, std::to_string(score_blue).c_str());
-        renderText(g_Screen, 540, 280 , 20, 40, "FreeSans.ttf", 40,  255, 25, 25, 255, ":");
-        renderText(g_Screen, 560, 280 , 40, 40, "FreeSans.ttf", 40,  255, 25, 25, 255, std::to_string(score_red).c_str());
+        Finish_Score.Render(g_Screen);
+        Cup.Render(g_Screen);
+        // if(score_blue > score_red)
+        // {
+        //     renderText(g_Screen, 500, 200 , 30, 30, "FreeSans.ttf", 30,  255, 25, 25, 255, "Blue Team Win");
+        // }
+        // else if(score_blue > score_red)
+        // {
+        //     renderText(g_Screen, 500, 200 , 30, 30, "FreeSans.ttf", 30,  255, 25, 25, 255, "Red Team Win");
+        // }
+        // else{
+        //     renderText(g_Screen, 520, 200 , 80, 80, "FreeSans.ttf", 80,  255, 25, 25, 255, "Draw !!!");
+        // }
+        renderText(g_Screen, 530, 285 , 20, 40, "FreeSans.ttf", 40,  255, 25, 25, 255, std::to_string(score_blue).c_str());
+        // renderText(g_Screen, 540, 280 , 20, 40, "FreeSans.ttf", 40,  255, 25, 25, 255, ":");
+        renderText(g_Screen, 560, 285 , 20, 40, "FreeSans.ttf", 40,  255, 25, 25, 255, std::to_string(score_red).c_str());
 
     } 
     
-    if(is_skill)
-    {
-        Run_Skill_1();
-    }
-
-    if(is_skill_1)
-    {
-
-        Magic_Skill.LoadImage(Magic_Skill.list2[count_skill].c_str(),g_Screen,900,700);
-
-        Magic_Skill.Render(g_Screen,NULL);
-        // std::cout<<"hihi"<<std::endl;
-        if(count_skill >= 17)
-        {
-            count_skill = 0;
-        }
-        count_skill++;
-        if(SDL_GetTicks() - finish.start_tick - time_pass >= 1000)
-        {
-            is_skill_1 = false;
-            count_skill = 0;
-            finish.unpause();
-
-            Run_Skill_1();
-        }
-    }
 
     if(is_goal)
     {
@@ -1162,11 +1162,11 @@ void Multi_Player()
             g_Character_2.x_pos_ = 540;
             g_Character_2.y_pos_ = 300;
 
-            g_Character_3.x_pos_ = 360;
-            g_Character_3.y_pos_ = 500;
+            g_Character_3.x_pos_ = 200;
+            g_Character_3.y_pos_ = 300;
 
-            g_Character_4.x_pos_ = 540;
-            g_Character_4.y_pos_ = 500;
+            g_Character_4.x_pos_ = 700;
+            g_Character_4.y_pos_ = 300;
             g_Ball.x_pos_ = 420;
             g_Ball.y_pos_ = 300;
         }
@@ -1224,12 +1224,17 @@ int main( int argc, char *argv[] )
     Mix_Music *music = Mix_LoadMUS("sounds/theme.mp3");
     if (music == nullptr) {
         SDL_Log("Không thể tải âm thanh: %s", Mix_GetError());
-        return 1;
     }
+    Mix_PlayMusic(music, 20);
     
-    // Mix_PlayMusic(music, 20);
     
-
+    Cup.LoadImage("assets/Main_menu/hehe-removebg-preview.png",g_Screen,250,120);
+    Cup.rect_.x = 430;
+    Cup.rect_.y = 180;
+    
+    Finish_Score.LoadImage("assets/Main_menu/finish_score-removebg-preview.png",g_Screen,200,50);
+    Finish_Score.rect_.x = 450;
+    Finish_Score.rect_.y = 280;
 
     Setting_Home_Bnt.LoadImage("assets/common_btns/Back_to_home_btn.png",g_Screen,100,40);
     Setting_Home_Bnt.rect_.x = 400;
@@ -1299,6 +1304,12 @@ int main( int argc, char *argv[] )
     g_Character_1.x_pos_ = 360;
     g_Character_1.y_pos_ = 300;
 
+    Run.LoadImage("assets/Main_menu/run2.png", g_Screen,60,60);
+
+
+    Run1.LoadImage("assets/Main_menu/run2.png", g_Screen,60,60);
+
+
     g_Character_2.LoadImg("assets/animation/player_run/red_team/red_stand.png", g_Screen);
     g_Character_2.Set_Clip();
     g_Character_2.x_pos_ = 540;
@@ -1325,7 +1336,13 @@ int main( int argc, char *argv[] )
     while(!isquit)
     {
         fps.start();
-        
+        if(music_control == 1)
+        {
+            Mix_PauseMusic();
+        }
+        else{
+            Mix_ResumeMusic();
+        }
         // Mix_PlayMusic(backgroundMusic, -1);  // -1 để phát lại liên tục
         if(finish.get_ticks()/1000 >= 90)
         {
@@ -1430,10 +1447,16 @@ int main( int argc, char *argv[] )
                         {                          
                             isquit = true;
                         }
-                        // if(x > 400 && x < 500 && y > 500 && y < 540)
-                        // {
-
-                        // }
+                        if(x > 400 && x < 500 && y > 500 && y < 600)
+                        {
+                            if(sound_control == 0)
+                            {
+                                sound_control = 1;
+                            }
+                            else{
+                                sound_control =0;
+                            }
+                        }
                     }
 
                     if(x > 500 && x < 600 && y > 350 && y < 380)                    
@@ -1462,28 +1485,80 @@ int main( int argc, char *argv[] )
             }
 
             // g_Menu.RunMenu();
+            
+            if(State == OPTIONS_MODE)
+            {
+                if (g_Event.type == SDL_MOUSEBUTTONDOWN) {
+                    if (g_Event.button.button == SDL_BUTTON_LEFT) {
+                        // Xử lý sự kiện nhấp chuột trái ở đây
+                        int x = g_Event.button.x;
+                        int y = g_Event.button.y;
+                        if(x > 400 && x < 550 && y > 400 && y< 600)
+                        {
+                            if(music_control == 0)
+                            {
+                                music_control = 1;
+                            }
+                            else{
+                                music_control = 0;
+                            }
+                        }
+                        if(x > 50 && x < 150 && y > 600 && y < 650)
+                        {
+                            currentGameStatus = MENU_MODE;
+                            previousGameStatus = START_MODE;
+                            if(g_Menu.LoadMenu() == false)
+                            {
+                                return -1;
+                            }
+                        }
+                    }
+                }
+                
+            }
             if(State == MULTIPLAYER_MODE)
             {
                 if(is_chances == 0)
                 {
-                    g_Character_1.HandleInputAction_1(g_Event,g_Screen);
+                    g_Character_1.HandleInputAction_2(g_Event,g_Screen);
                 }
                 else{
-                    g_Character_3.HandleInputAction_1(g_Event,g_Screen);
+                    g_Character_3.HandleInputAction_2(g_Event,g_Screen);
                 }
 
                 if(is_chances_1 == 0)
                 {
-                    g_Character_2.HandleInputAction_2(g_Event,g_Screen);
+                    g_Character_2.HandleInputAction_1(g_Event,g_Screen);
                 }
                 else{
-                    g_Character_4.HandleInputAction_2(g_Event,g_Screen);
+                    g_Character_4.HandleInputAction_1(g_Event,g_Screen);
                 }
+
             }
             if(State == SINGPLEPLAYER_MODE)
             {
-                g_Character_1.HandleInputAction_1(g_Event,g_Screen);
-                g_Character_2.HandleInputAction_2(g_Event,g_Screen);
+                g_Character_1.HandleInputAction_2(g_Event,g_Screen);
+                g_Character_2.HandleInputAction_1(g_Event,g_Screen);
+            }
+
+            if(State == CREDITS_MODE)
+            {
+                if (g_Event.type == SDL_MOUSEBUTTONDOWN) {
+                    if (g_Event.button.button == SDL_BUTTON_LEFT) {
+                        // Xử lý sự kiện nhấp chuột trái ở đây
+                        int x = g_Event.button.x;
+                        int y = g_Event.button.y;
+                        if(x > 50 && x < 150 && y > 600 && y < 650)
+                        {
+                            currentGameStatus = MENU_MODE;
+                            previousGameStatus = START_MODE;
+                            if(g_Menu.LoadMenu() == false)
+                            {
+                                return -1;
+                            }
+                        }
+                    }
+                }
             }
             // g_Character_3.HandleInputAction_1(g_Event,g_Screen);
         }
@@ -1497,6 +1572,47 @@ int main( int argc, char *argv[] )
         if(State == MULTIPLAYER_MODE) Multi_Player();
         if(State == QUIT_MODE) isquit = true;
         // g_BackGround.Render(g_Screen,NULL);
+
+        if(is_skill)
+        {
+            Time_Break_Skill.LoadImage(Time_Break_Skill.list1[count_skill].c_str(),g_Screen,900,700);
+            Time_Break_Skill.Render(g_Screen,NULL);
+            if(count_skill >= 50)
+            {
+                count_skill = 0;
+            }
+            count_skill++;
+            if(SDL_GetTicks() - finish.start_tick - time_pass >= 2000)
+            {
+                is_skill = false;
+                count_skill = 0;
+                finish.unpause();
+                finish.start_tick += 5000;
+                Run_Skill();
+            }
+        }
+
+        if(is_skill_1)
+        {
+
+            Magic_Skill.LoadImage(Magic_Skill.list2[count_skill].c_str(),g_Screen,900,700);
+
+            Magic_Skill.Render(g_Screen,NULL);
+            // std::cout<<"hihi"<<std::endl;
+            if(count_skill >= 17)
+            {
+                count_skill = 0;
+            }
+            count_skill++;
+            if(SDL_GetTicks() - finish.start_tick - time_pass >= 1000)
+            {
+                is_skill_1 = false;
+                count_skill = 0;
+                finish.unpause();
+
+                Run_Skill_1();
+            }
+        }
 
         SDL_RenderPresent(g_Screen);
         if(flag == 1) 
