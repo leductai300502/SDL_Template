@@ -9,12 +9,22 @@
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
 
-static SDL_Window* g_Window = NULL;
-static SDL_Renderer* g_Screen = NULL;
-static SDL_Event g_Event ;
+#include "base_object.h"
+#include "Menu.h"
 
-const int SCREEN_WIDTH = 595;
-const int SCREEN_HEIGHT = 800;
+static SDL_Window* g_Window = NULL;
+// static SDL_Renderer* g_Screen = NULL;
+// static SDL_Event g_Event ;
+extern SDL_Renderer* g_Screen;
+extern SDL_Event g_Event ;
+
+const int SCREEN_WIDTH = 900;
+const int SCREEN_HEIGHT = 700;
+
+const int SCREEN_WIDTH_YARD_S = 75;
+const int SCREEN_WIDTH_YARD_M = 825;
+const int SCREEN_HEIGHT_YARD_S = 100;
+const int SCREEN_HEIGHT_YARD_M = 600;
 const int SCREEN_BPP = 32;
 
 const int FRAME_PER_SECOND  = 25;
@@ -26,6 +36,14 @@ const int COLOR_KEY_B = 180;
 extern int force;
 
 extern bool shoot;
+extern bool isQuit;
+
+extern int State;
+
+extern int previousGameStatus;
+extern int currentGameStatus; /// store current status
+
+// extern BaseObject g_BackGround;
 
 
 typedef struct

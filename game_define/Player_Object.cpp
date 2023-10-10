@@ -28,11 +28,36 @@ PlayerObject::~PlayerObject()
 
 bool PlayerObject::LoadImg(std::string path, SDL_Renderer* screen)
 {
-  bool ret = BaseObject::LoadImage(path, screen);
+  bool ret = BaseObject::LoadImage(path, screen,0,0);
   if(ret)
   {
-    width_frame  = rect_.w/8;
+    width_frame  = rect_.w/7;
     height_frame = rect_.h;
+  }
+  return ret;
+}
+
+bool PlayerObject::LoadImg1(std::string path, SDL_Renderer* screen)
+{
+  bool ret = BaseObject::LoadImage(path, screen,0,0);
+  if(ret)
+  {
+    width_frame  = rect_.w/20;
+    height_frame = rect_.h;
+  }
+  return ret;
+}
+
+bool PlayerObject::LoadImg2(std::string path, SDL_Renderer* screen)
+{
+  bool ret = BaseObject::LoadImage(path, screen,0,0);
+  std::cout<<"hehe"<<std::endl;
+  if(ret)
+  {
+    width_frame  = rect_.w/26;
+    std::cout<<width_frame<<std::endl;
+    height_frame = rect_.h;
+    std::cout<<height_frame<<std::endl;
   }
   return ret;
 }
@@ -47,109 +72,11 @@ void PlayerObject::Center()
 
 void PlayerObject::Show(SDL_Renderer* des)
 {
-  //  BaseObject::Render(des,NULL);
-  if(status == Walk_left )
-  {
-    LoadImg("player_left.png",des);
-  }
-  else if(status == Walk_rigth)
-  {
-    LoadImg("player_right.png",des);
-  }
-  else if(status == Walk_down)
-  {
-    LoadImg("player_left.png",des);
-  }
-  else{
-    LoadImg("player_right.png",des);
-  }
-  
-  // if(input_type.left == 1 && input_type.up == 1)
-  // {
-  //   frame ++;
-  //   if(x_pos_ >= 5 )
-  //   {
-  //     x_pos_ -= 5;
-  //   } 
-  //   if(y_pos_ >= 5)
-  //   {
-  //     y_pos_ -= 5;
-  //   }
-  //   input_type.left = 0;
-  //   input_type.up = 0;
-  // }
-  // else if(input_type.up == 1 && input_type.right == 1)
-  // {
-  //   frame++;
-  //   if(x_pos_ + width_frame <= SCREEN_WIDTH -5){
-  //     x_pos_ += 5;
-  //   }
-  //   if(y_pos_ >= 5)
-  //   {
-  //     y_pos_ -= 5;
-  //   }
-  //   input_type.right = 0;
-  //   input_type.up = 0;
-  // }
-  // else if(input_type.down == 1 && input_type.right == 1)
-  // {
-  //   frame++;
-  //   if(x_pos_ + width_frame <= SCREEN_WIDTH -5 ){
-  //     x_pos_ += 5;
-  //   }
-  //   if(y_pos_ + height_frame <= SCREEN_HEIGHT -5)
-  //   {
-  //     y_pos_ += 5;
-  //   }
-  //   input_type.right = 0;
-  //   input_type.down = 0;
-  // }
-  // else if(input_type.down == 1 && input_type.left == 1)
-  // {
-  //   frame++;
-  //   if(x_pos_ >= 5 ){
-  //     x_pos_ -= 5;
-  //   }
-  //   if(y_pos_ + height_frame <= SCREEN_HEIGHT -5)
-  //   {
-  //      y_pos_ += 5;
-  //   }
-  //   input_type.left = 0;
-  //   input_type.up = 0;
-  // }
-  // else if(input_type.left == 1)
-  // {
-  //   frame++;
-  //   if(x_pos_ >= 5) x_pos_ -=5;
-  //   input_type.left = 0;
-  //   // std::cout<<x_pos_<<std::endl;
-  // }
-  // else if(input_type.right == 1)
-  // {
-  //   frame++;
-  //   if(x_pos_ <= SCREEN_WIDTH - width_frame - 5) x_pos_ +=5;
-  //   input_type.right = 0;
-  // }
-  // else if(input_type.up == 1)
-  // {
-  //   frame++;
-  //   if(y_pos_ >= 5) y_pos_ -= 5;
-  //   input_type.up = 0;
-  // }
-  // else if(input_type.down == 1)
-  // {
-  //   frame++;
-  //   if(y_pos_ + height_frame <= SCREEN_HEIGHT - 5) y_pos_ += 5;
-  //   input_type.down = 0;
-  // }
-  // else{
-  //   frame =0;
-  // }
 
   if(input_type.left == 1)
   {
     frame ++;
-    if(x_pos_ >= 5 )
+    if(x_pos_ >= SCREEN_WIDTH_YARD_S + 5 )
     {
       x_pos_ -= 5;
     } 
@@ -157,14 +84,14 @@ void PlayerObject::Show(SDL_Renderer* des)
   if(input_type.right == 1)
   {
     frame++;
-    if(x_pos_ + width_frame <= SCREEN_WIDTH -5){
+    if(x_pos_ + width_frame <= SCREEN_WIDTH_YARD_M -5){
       x_pos_ += 5;
     }
   }
   if(input_type.up == 1)
   {
     frame++;
-    if(y_pos_ >= 5)
+    if(y_pos_ >= SCREEN_HEIGHT_YARD_S + 5)
     {
       y_pos_ -= 5;
     }
@@ -172,7 +99,7 @@ void PlayerObject::Show(SDL_Renderer* des)
   if(input_type.down == 1)
   {
     frame++;
-    if(y_pos_ + height_frame <= SCREEN_HEIGHT -5)
+    if(y_pos_ + height_frame <= SCREEN_HEIGHT_YARD_M -5)
     {
       y_pos_ += 5;
     }
@@ -181,7 +108,7 @@ void PlayerObject::Show(SDL_Renderer* des)
   {
     frame = 0;
   }
-  if(frame >= 8)
+  if(frame >= 7)
   {
     frame = 0;
   }
@@ -193,6 +120,44 @@ void PlayerObject::Show(SDL_Renderer* des)
   SDL_Rect renderQuad = {rect_.x,rect_.y,width_frame,height_frame};
   SDL_RenderCopy(des,p_object_,current_clip,&renderQuad);
 }
+
+
+void PlayerObject::Show1(SDL_Renderer* des)
+{
+    frame ++;
+ 
+  if(frame >= 19)
+  {
+    frame = 0;
+  }
+
+  rect_.x = x_pos_;
+  rect_.y = y_pos_;
+
+  SDL_Rect* current_clip = &frame_clip1[frame];
+  SDL_Rect renderQuad = {rect_.x,rect_.y,width_frame,height_frame};
+  SDL_RenderCopy(des,p_object_,current_clip,&renderQuad);
+
+}
+
+void PlayerObject::Show2(SDL_Renderer* des)
+{
+    frame ++;
+ 
+  if(frame >= 26)
+  {
+    frame = 0;
+  }
+
+  rect_.x = x_pos_;
+  rect_.y = y_pos_;
+
+  SDL_Rect* current_clip = &frame_clip2[frame];
+  SDL_Rect renderQuad = {rect_.x,rect_.y,width_frame,height_frame};
+  SDL_RenderCopy(des,p_object_,current_clip,&renderQuad);
+
+}
+
 
 void PlayerObject::HandleInputAction_1(SDL_Event events, SDL_Renderer* screen)
 {
@@ -309,12 +274,40 @@ void PlayerObject::Set_Clip()
 {
   if(width_frame > 0 and height_frame >= 0)
   {
-    for(int i =0 ; i< 8 ;i++)
+    for(int i =0 ; i< 7 ;i++)
     {
       frame_clip[i].x = i*width_frame;
       frame_clip[i].y = 0;
       frame_clip[i].w = width_frame;
       frame_clip[i].h = height_frame;
+    }
+  }
+}
+
+void PlayerObject::Set_Clip1()
+{
+  if(width_frame > 0 and height_frame >= 0)
+  {
+    for(int i =0 ; i< 20 ;i++)
+    {
+      frame_clip1[i].x = i*width_frame;
+      frame_clip1[i].y = 0;
+      frame_clip1[i].w = width_frame;
+      frame_clip1[i].h = height_frame;
+    }
+  }
+}
+
+void PlayerObject::Set_Clip2()
+{
+  if(width_frame > 0 and height_frame >= 0)
+  {
+    for(int i =0 ; i< 26 ;i++)
+    {
+      frame_clip2[i].x = i*width_frame;
+      frame_clip2[i].y = 0;
+      frame_clip2[i].w = width_frame;
+      frame_clip2[i].h = height_frame;
     }
   }
 }

@@ -21,12 +21,18 @@ public:
   int  Walk_down_left = 7;
 
   bool LoadImg(std::string path, SDL_Renderer* screen);
+  bool LoadImg1(std::string path, SDL_Renderer* screen);
+  bool LoadImg2(std::string path, SDL_Renderer* screen);
   void Show(SDL_Renderer* des);
+  void Show1(SDL_Renderer* des);
+  void Show2(SDL_Renderer* des);
   void HandleInputAction_1(SDL_Event events, SDL_Renderer* screen); 
   void HandleInputAction_2(SDL_Event events, SDL_Renderer* screen); 
   void HandleInputAction_3(SDL_Event events, SDL_Renderer* screen); 
   void HandleInputAction_4(SDL_Event events, SDL_Renderer* screen); 
   void Set_Clip();
+  void Set_Clip1();
+  void Set_Clip2();
   void Center();
 
   float x_val_;
@@ -41,7 +47,10 @@ public:
   int width_frame;
   int height_frame;
 
-  SDL_Rect frame_clip[8];
+
+  SDL_Rect frame_clip[7];
+  SDL_Rect frame_clip1[70];
+  SDL_Rect frame_clip2[26];
   int frame;
   int status;
 

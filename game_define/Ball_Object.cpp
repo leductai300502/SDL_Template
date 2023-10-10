@@ -28,7 +28,7 @@ BallObject::~BallObject()
 
 bool BallObject::LoadImg(std::string path, SDL_Renderer* screen)
 {
-  bool ret = BaseObject::LoadImage(path, screen);
+  bool ret = BaseObject::LoadImage(path, screen,0,0);
   if(ret)
   {
     width_frame  = rect_.w;

@@ -6,6 +6,7 @@
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/src/include",
                 "${workspaceFolder}/src/include/SDL2",
+                "${workspaceFolder}/header",
                 "${workspaceFolder}/header"
             ],
             "compilerPath": "C:\\MinGW\\bin\\gcc.exe",
